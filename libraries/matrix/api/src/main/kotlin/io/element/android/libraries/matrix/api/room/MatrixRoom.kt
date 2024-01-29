@@ -56,6 +56,7 @@ interface MatrixRoom : Closeable {
     val isDm: Boolean get() = isDirect && isOneToOne
 
     val roomInfoFlow: Flow<MatrixRoomInfo>
+    val roomTypingMembersFlow: Flow<List<UserId>>
 
     /**
      * A one-to-one is a room with exactly 2 members.

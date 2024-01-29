@@ -27,6 +27,7 @@ import io.element.android.features.messages.impl.timeline.components.reactionsum
 import io.element.android.features.messages.impl.timeline.components.receipt.bottomsheet.ReadReceiptBottomSheetState
 import io.element.android.features.messages.impl.timeline.components.retrysendmenu.RetrySendMenuState
 import io.element.android.features.messages.impl.timeline.model.event.aTimelineItemTextContent
+import io.element.android.features.messages.impl.typing.aTypingNotificationState
 import io.element.android.features.messages.impl.voicemessages.composer.aVoiceMessageComposerState
 import io.element.android.features.messages.impl.voicemessages.composer.aVoiceMessagePreviewState
 import io.element.android.libraries.architecture.AsyncData
@@ -98,6 +99,7 @@ fun aMessagesState() = MessagesState(
     timelineState = aTimelineState().copy(
         timelineItems = aTimelineItemList(aTimelineItemTextContent()),
     ),
+    typingNotificationState = aTypingNotificationState(),
     retrySendMenuState = RetrySendMenuState(
         selectedEvent = null,
         eventSink = {},

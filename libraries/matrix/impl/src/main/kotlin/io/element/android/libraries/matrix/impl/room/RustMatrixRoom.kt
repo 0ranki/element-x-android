@@ -72,6 +72,7 @@ import org.matrix.rustcomponents.sdk.RoomInfoListener
 import org.matrix.rustcomponents.sdk.RoomListItem
 import org.matrix.rustcomponents.sdk.RoomMessageEventContentWithoutRelation
 import org.matrix.rustcomponents.sdk.SendAttachmentJoinHandle
+import org.matrix.rustcomponents.sdk.TypingNotificationsListener
 import org.matrix.rustcomponents.sdk.WidgetCapabilities
 import org.matrix.rustcomponents.sdk.WidgetCapabilitiesProvider
 import org.matrix.rustcomponents.sdk.messageEventContentFromHtml
@@ -108,6 +109,21 @@ class RustMatrixRoom(
         innerRoom.subscribeToRoomInfoUpdates(object : RoomInfoListener {
             override fun call(roomInfo: RoomInfo) {
                 channel.trySend(matrixRoomInfoMapper.map(roomInfo))
+            }
+        })
+    }
+
+    override val roomTypingMembersFlow: Flow<List<UserId>> = mxCallbackFlow {
+        launch {
+            val initial = emptyList<UserId>()
+            channel.trySend(initial)
+        }
+        innerRoom.subscribeToTypingNotifications(object : TypingNotificationsListener {
+            override fun call(typingUsers: List<String>) {
+                channel.trySend(
+                    typingUsers
+                        .filter { it != sessionData.userId }
+                        .map(::UserId))
             }
         })
     }
