@@ -126,6 +126,7 @@ fun MessagesView(
     onCreatePollClicked: () -> Unit,
     onJoinCallClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    forceJumpToBottomVisibility: Boolean = false
 ) {
     LogCompositions(tag = "MessagesScreen", msg = "Root")
 
@@ -229,6 +230,7 @@ fun MessagesView(
                 onSwipeToReply = { targetEvent ->
                     state.eventSink(MessagesEvents.HandleAction(TimelineItemAction.Reply, targetEvent))
                 },
+                forceJumpToBottomVisibility = forceJumpToBottomVisibility,
             )
         },
         snackbarHost = {
@@ -329,6 +331,7 @@ private fun MessagesViewContent(
     onTimestampClicked: (TimelineItem.Event) -> Unit,
     onSendLocationClicked: () -> Unit,
     onCreatePollClicked: () -> Unit,
+    forceJumpToBottomVisibility: Boolean,
     modifier: Modifier = Modifier,
     onSwipeToReply: (TimelineItem.Event) -> Unit,
 ) {
@@ -399,6 +402,7 @@ private fun MessagesViewContent(
                     onMoreReactionsClicked = onMoreReactionsClicked,
                     onReadReceiptClick = onReadReceiptClick,
                     onSwipeToReply = onSwipeToReply,
+                    forceJumpToBottomVisibility = forceJumpToBottomVisibility,
                 )
             },
             sheetContent = { subcomposing: Boolean ->
@@ -585,5 +589,6 @@ internal fun MessagesViewPreview(@PreviewParameter(MessagesStateProvider::class)
         onSendLocationClicked = {},
         onCreatePollClicked = {},
         onJoinCallClicked = {},
+        forceJumpToBottomVisibility = true,
     )
 }
